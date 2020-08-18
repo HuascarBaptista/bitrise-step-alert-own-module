@@ -18,11 +18,11 @@ type Responsible struct {
 }
 
 type Config struct {
-	AllowedKeys       string `env:"jira_keys,required"`
-	PR                string `env:"pr,required"`
-	Branch            string `env:"branch,required"`
-	Folders           string `env:"folders,required"`
-	PathConfiguration string `env:"path_configuration,required"`
+	AllowedKeys       string `env:"jira_keys"`
+	PR                string `env:"pr"`
+	Branch            string `env:"branch"`
+	Folders           string `env:"folders"`
+	PathConfiguration string `env:"path_configuration"`
 }
 
 func main() {
