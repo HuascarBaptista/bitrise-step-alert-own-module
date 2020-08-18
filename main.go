@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/bitrise-io/go-utils/log"
+	"github.com/bitrise-tools/go-steputils/stepconf"
 	"github.com/bitrise-tools/go-steputils/tools"
 	"io/ioutil"
 	"os"
@@ -26,15 +27,16 @@ type Config struct {
 }
 
 func main() {
-	var cfg Config = Config{
+	/*var cfg Config = Config{
 		Folders:           "tools\nbasket\nbase\n",
 		PathConfiguration: "tools/responsible.json",
 		Branch:            "fix/SHP-22/huascar",
 		AllowedKeys:       "BAS|SHP|OT",
-	}
-	/*if err := stepconf.Parse(&cfg); err != nil {
-		failf("Issue with input: %s", err)
 	}*/
+	var cfg Config
+	if err := stepconf.Parse(&cfg); err != nil {
+		failf("Issue with input: %s", err)
+	}
 	fmt.Printf("The Path configuration is %s\n", cfg.PathConfiguration)
 
 	file, _ := ioutil.ReadFile(cfg.PathConfiguration)
@@ -65,11 +67,13 @@ func main() {
 		for key, folders := range foldersTouchedByProject {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible
-			message += "\n Guys " + strings.Join(responsible, ", ") + " estás carpetas " + strings.Join(folders, ", ") + " están siendo tocadas de su proyecto " + key + "\n"
+			message += "\n Guys " + strings.Join(responsible, ", ") + " estás carpetas [" + strings.Join(folders, ", ") + "] están siendo tocadas de su proyecto " + key + "\n"
 			fmt.Printf("The Project affected was %s\n", key)
 			fmt.Printf("The folders affected were %s\n", folders)
 			fmt.Printf("The authors affected were %s\n", responsible)
 		}
+		fmt.Printf("Mensaje FINAL\n%s\n", message)
+
 		if err := tools.ExportEnvironmentWithEnvman("ALERT_MESSAGE", message); err != nil {
 			failf("error exporting variable", err)
 		}
