@@ -64,13 +64,18 @@ toolkit:
 
 
 inputs:
+  - folders: $DIFF_FOLDERS
+      opts:
+        title: "Folders that has been touched"
+        is_expand: true
+        is_required: false
+  - path_configuration: "tools/responsible.json"
+      opts:
+        title: "path of responsible configuration"
+        is_expand: true
+        is_required: false
 
 outputs:
-  - EXAMPLE_STEP_OUTPUT:
+  - ALERT_MESSAGE:
     opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this output.
-
-        Can be Markdown formatted text.
+      title: "Message to be sent by slack"
