@@ -55,22 +55,24 @@ func main() {
 
 	var indexOfKey = getIndexOfKeyProject(jsonDataArray, branchKey)
 
-	if indexOfKey == -1 {
-		failf("Not founded key: %s", branchKey)
-	}
-
 	foldersTouchedByProject := map[string][]string{}
 
 	fillFoldersTouchedByProject(arrayOfFolders, jsonDataArray, indexOfKey, foldersTouchedByProject)
 	if len(foldersTouchedByProject) > 0 {
-		var message = "El PR <https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|Link> está tocando algunas carpetas que no son de su modulo:\n"
+		var message = ""
+		if indexOfKey != -1 {
+			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR de " + jsonDataArray[indexOfKey].Key + "> está tocando algunas carpetas que no son de su modulo:\n"
+
+		} else {
+			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR " + cfg.PR + "> está tocando algunas carpetas que no son de su modulo:\n"
+		}
 		for key, folders := range foldersTouchedByProject {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible
 			if len(folders) > 1 {
-				message += strings.Join(responsible, ", ") + " estás carpetas [*" + strings.Join(folders, ", ") + "*] están siendo tocadas de su proyecto *" + key + "*\n"
+				message += "*\" + key + \"*: Carpetas afectadas: [*" + strings.Join(folders, ", ") + "*] cc:" + strings.Join(responsible, ", ") + "\n"
 			} else {
-				message += strings.Join(responsible, ", ") + " la carpeta *" + strings.Join(folders, ", ") + "* están siendo tocadas de su proyecto *" + key + "*\n"
+				message += "*\" + key + \"*: Carpeta afectada: *" + strings.Join(folders, ", ") + "* cc:" + strings.Join(responsible, ", ") + "\n"
 			}
 		}
 		if err := tools.ExportEnvironmentWithEnvman("ALERT_MESSAGE", message); err != nil {
@@ -91,7 +93,7 @@ func main() {
 func fillFoldersTouchedByProject(arrayOfFolders []string, jsonDataArray []Responsible, indexOfKey int, foldersTouchedByProjectResult map[string][]string) {
 	for _, folder := range arrayOfFolders {
 		indexOfKeyTouched := getIndexOfFolder(jsonDataArray, folder)
-		if indexOfKeyTouched != indexOfKey && indexOfKeyTouched != -1 {
+		if indexOfKeyTouched != -1 && indexOfKeyTouched != indexOfKey {
 			key := jsonDataArray[indexOfKeyTouched].Key
 			if _, ok := foldersTouchedByProjectResult[key]; ok {
 				foldersTouchedByProjectResult[key] = []string{folder}
