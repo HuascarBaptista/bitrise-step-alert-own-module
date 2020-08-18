@@ -62,7 +62,6 @@ toolkit:
   go:
     package_name: github.com/HuascarBaptista/bitrise-step-alert-own-module
 
-
 inputs:
   - jira_keys: $JIRA_PROJECT_KEYS
     opts:
