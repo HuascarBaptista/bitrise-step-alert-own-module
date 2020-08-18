@@ -40,8 +40,6 @@ func main() {
 		failf("Issue with input: %s", err)
 	}
 
-	fmt.Printf("The Path configuration is %s\n", cfg.PathConfiguration)
-
 	file, _ := ioutil.ReadFile(cfg.PathConfiguration)
 
 	var jsonDataArray []Responsible
@@ -53,8 +51,6 @@ func main() {
 	if branchKey == "" {
 		failf("Key don't allowed")
 	}
-	fmt.Printf("Carpetas arribas %s\n", cfg.Folders)
-	fmt.Printf("Carpetas en fields %s\n", strings.Split(cfg.Folders, "|"))
 
 	var arrayOfFolders = removeDuplicateValues(strings.Split(cfg.Folders, "|"))
 
@@ -68,17 +64,16 @@ func main() {
 
 	fillFoldersTouchedByProject(arrayOfFolders, jsonDataArray, indexOfKey, foldersTouchedByProject)
 	if len(foldersTouchedByProject) > 0 {
-		var message = "El PR <https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|Link> de " + cfg.Author + "está tocando algunas carpetas que no son de su modulo\n"
+		var message = "El PR <https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|Link> de " + cfg.Author + "está tocando algunas carpetas que no son de su modulo:\n"
 		for key, folders := range foldersTouchedByProject {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible
-			message += "\n Guys " + strings.Join(responsible, ", ") + " estás carpetas [" + strings.Join(folders, ", ") + "] están siendo tocadas de su proyecto " + key + "\n"
-			fmt.Printf("The Project affected was %s\n", key)
-			fmt.Printf("The folders affected were %s\n", folders)
-			fmt.Printf("The authors affected were %s\n", responsible)
+			if len(folders) > 1 {
+				message += strings.Join(responsible, ", ") + " estás carpetas [*" + strings.Join(folders, ", ") + "*] están siendo tocadas de su proyecto *" + key + "*\n"
+			} else {
+				message += strings.Join(responsible, ", ") + " la carpeta *" + strings.Join(folders, ", ") + "* están siendo tocadas de su proyecto *" + key + "*\n"
+			}
 		}
-		fmt.Printf("Mensaje FINAL\n%s\n", message)
-
 		if err := tools.ExportEnvironmentWithEnvman("ALERT_MESSAGE", message); err != nil {
 			failf("error exporting variable", err)
 		}
@@ -95,41 +90,32 @@ func main() {
 }
 
 func fillFoldersTouchedByProject(arrayOfFolders []string, jsonDataArray []Responsible, indexOfKey int, foldersTouchedByProjectResult map[string][]string) {
-	fmt.Printf("Folders touched %s\n", arrayOfFolders)
 	for _, folder := range arrayOfFolders {
 		indexOfKeyTouched := getIndexOfFolder(jsonDataArray, folder)
 		if indexOfKeyTouched != indexOfKey && indexOfKeyTouched != -1 {
 			key := jsonDataArray[indexOfKeyTouched].Key
-			fmt.Printf("The Folder %s is property of the project %s\n", folder, key)
 			if _, ok := foldersTouchedByProjectResult[key]; ok {
 				foldersTouchedByProjectResult[key] = []string{folder}
 			} else {
 				foldersTouchedByProjectResult[key] = append(foldersTouchedByProjectResult[key], folder)
 			}
-			fmt.Printf("Folders of %s touched %s\n", key, foldersTouchedByProjectResult[key])
 		}
 	}
 }
 
 func getIndexOfKeyProject(jsonDataArray []Responsible, branchKey string) int {
 	for i := 0; i < len(jsonDataArray); i++ {
-		fmt.Println("getIndexOfKeyProject Key: ", jsonDataArray[i].Key)
 		if jsonDataArray[i].Key == branchKey {
-			fmt.Println("Key founded: ", jsonDataArray[i].Key)
 			return i
 		}
 	}
-	fmt.Println("Key not founded: ", branchKey)
 	return -1
 }
 
 func getIndexOfFolder(jsonDataArray []Responsible, folder string) int {
 	for i := 0; i < len(jsonDataArray); i++ {
-		fmt.Println("getIndexOfFolder folder: ", folder)
-		fmt.Println("getIndexOfFolder loop Key to check: ", jsonDataArray[i].Key)
 		projectKey := stringInArray(folder, jsonDataArray[i].Modules)
 		if projectKey != "" {
-			fmt.Println("folder founded in: ", jsonDataArray[i].Key)
 			return i
 		}
 	}

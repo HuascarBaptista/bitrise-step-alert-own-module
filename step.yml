@@ -73,12 +73,12 @@ inputs:
       title: "Git branch touched"
       is_expand: true
       is_required: false
-  - pr: $BITRISEIO_PULL_REQUEST_ID
+  - pr: $BITRISE_PULL_REQUEST_ID
     opts:
       title: "Pull request url"
       is_expand: true
       is_required: false
-  - author: $BITRISEIO_PULL_REQUEST_AUTHOR
+  - author: $BITRISE_PULL_REQUEST_AUTHOR
     opts:
       title: "Pull request author"
       is_expand: true
