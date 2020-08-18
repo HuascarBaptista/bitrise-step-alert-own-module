@@ -52,6 +52,8 @@ func main() {
 	if branchKey == "" {
 		failf("Key don't allowed")
 	}
+	fmt.Printf("Carpetas arribas %s\n", cfg.Folders)
+	fmt.Printf("Carpetas en fields %s\n", strings.Fields(cfg.Folders))
 
 	var arrayOfFolders = removeDuplicateValues(strings.Fields(cfg.Folders))
 
