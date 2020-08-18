@@ -44,9 +44,9 @@ host_os_tags:
 type_tags:
   - utility
 
-is_requires_admin_user: true
+is_requires_admin_user: false
 is_always_run: false
-is_skippable: false
+is_skippable: true
 run_if: ""
 
 deps:

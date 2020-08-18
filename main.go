@@ -78,13 +78,9 @@ func main() {
 		}
 	} else {
 		fmt.Printf("No folders touched\n")
-		os.Exit(0)
+		os.Exit(-1)
 	}
 
-	// You can find more usage examples on envman's GitHub page
-	//  at: https://github.com/bitrise-io/envman
-
-	//
 	// --- Exit codes:
 	// The exit code of your Step is very important. If you return
 	//  with a 0 exit code `bitrise` will register your Step as "successful".
