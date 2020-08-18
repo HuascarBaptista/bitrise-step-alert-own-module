@@ -20,6 +20,7 @@ type Responsible struct {
 type Config struct {
 	AllowedKeys       string `env:"jira_keys"`
 	PR                string `env:"pr"`
+	Author            string `env:"author"`
 	Branch            string `env:"branch"`
 	Folders           string `env:"folders"`
 	PathConfiguration string `env:"path_configuration"`
@@ -53,9 +54,9 @@ func main() {
 		failf("Key don't allowed")
 	}
 	fmt.Printf("Carpetas arribas %s\n", cfg.Folders)
-	fmt.Printf("Carpetas en fields %s\n", strings.Fields(cfg.Folders))
+	fmt.Printf("Carpetas en fields %s\n", strings.Split(cfg.Folders, "|"))
 
-	var arrayOfFolders = removeDuplicateValues(strings.Fields(cfg.Folders))
+	var arrayOfFolders = removeDuplicateValues(strings.Split(cfg.Folders, "|"))
 
 	var indexOfKey = getIndexOfKeyProject(jsonDataArray, branchKey)
 
@@ -67,7 +68,7 @@ func main() {
 
 	fillFoldersTouchedByProject(arrayOfFolders, jsonDataArray, indexOfKey, foldersTouchedByProject)
 	if len(foldersTouchedByProject) > 0 {
-		var message = "El PR " + cfg.PR + " está tocando algunas carpetas que no son de su modulo\n"
+		var message = "El PR <https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|Link> de " + cfg.Author + "está tocando algunas carpetas que no son de su modulo\n"
 		for key, folders := range foldersTouchedByProject {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible

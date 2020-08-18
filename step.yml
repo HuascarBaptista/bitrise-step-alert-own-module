@@ -73,9 +73,14 @@ inputs:
       title: "Git branch touched"
       is_expand: true
       is_required: false
-  - pr: $BITRISEIO_PULL_REQUEST_REPOSITORY_URL
+  - pr: $BITRISEIO_PULL_REQUEST_ID
     opts:
       title: "Pull request url"
+      is_expand: true
+      is_required: false
+  - author: $BITRISEIO_PULL_REQUEST_AUTHOR
+    opts:
+      title: "Pull request author"
       is_expand: true
       is_required: false
   - folders: $DIFF_FOLDERS
