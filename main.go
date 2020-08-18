@@ -61,18 +61,18 @@ func main() {
 	if len(foldersTouchedByProject) > 0 {
 		var message = ""
 		if indexOfKey != -1 {
-			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR de " + jsonDataArray[indexOfKey].Key + "> está tocando algunas carpetas que no son de su modulo:\n"
+			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR de " + jsonDataArray[indexOfKey].Key + "> está tocando algunos modulos que no son de su propiedad:\n"
 
 		} else {
-			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR " + cfg.PR + "> está tocando algunas carpetas que no son de su modulo:\n"
+			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR " + cfg.PR + "> está tocando algunos modulos que no son de su propiedad:\n"
 		}
 		for key, folders := range foldersTouchedByProject {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible
 			if len(folders) > 1 {
-				message += "*\" + key + \"*: Carpetas afectadas: [*" + strings.Join(folders, ", ") + "*] cc:" + strings.Join(responsible, ", ") + "\n"
+				message += "*" + key + "*: modulos afectados: [*" + strings.Join(folders, ", ") + "*] cc:" + strings.Join(responsible, ", ") + "\n"
 			} else {
-				message += "*\" + key + \"*: Carpeta afectada: *" + strings.Join(folders, ", ") + "* cc:" + strings.Join(responsible, ", ") + "\n"
+				message += "*" + key + "*: modulo afectado: *" + strings.Join(folders, ", ") + "* cc:" + strings.Join(responsible, ", ") + "\n"
 			}
 		}
 		if err := tools.ExportEnvironmentWithEnvman("ALERT_MESSAGE", message); err != nil {
