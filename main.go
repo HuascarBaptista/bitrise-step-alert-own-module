@@ -53,7 +53,7 @@ func main() {
 		failf("Key don't allowed")
 	}
 
-	var arrayOfFolders = strings.Fields(cfg.Folders)
+	var arrayOfFolders = removeDuplicateValues(strings.Fields(cfg.Folders))
 
 	var indexOfKey = getIndexOfKeyProject(jsonDataArray, branchKey)
 
@@ -91,18 +91,19 @@ func main() {
 	os.Exit(0)
 }
 
-func fillFoldersTouchedByProject(arrayOfFolders []string, jsonDataArray []Responsible, indexOfKey int, foldersTouchedByProject map[string][]string) {
+func fillFoldersTouchedByProject(arrayOfFolders []string, jsonDataArray []Responsible, indexOfKey int, foldersTouchedByProjectResult map[string][]string) {
+	fmt.Printf("Folders touched %s\n", arrayOfFolders)
 	for _, folder := range arrayOfFolders {
 		indexOfKeyTouched := getIndexOfFolder(jsonDataArray, folder)
 		if indexOfKeyTouched != indexOfKey && indexOfKeyTouched != -1 {
 			key := jsonDataArray[indexOfKeyTouched].Key
 			fmt.Printf("The Folder %s is property of the project %s\n", folder, key)
-			if _, ok := foldersTouchedByProject[key]; ok {
-				foldersTouchedByProject[key] = []string{folder}
+			if _, ok := foldersTouchedByProjectResult[key]; ok {
+				foldersTouchedByProjectResult[key] = []string{folder}
 			} else {
-				foldersTouchedByProject[key] = append(foldersTouchedByProject[key], folder)
+				foldersTouchedByProjectResult[key] = append(foldersTouchedByProjectResult[key], folder)
 			}
-			fmt.Printf("Folders of %s touched %s\n", key, foldersTouchedByProject[key])
+			fmt.Printf("Folders of %s touched %s\n", key, foldersTouchedByProjectResult[key])
 		}
 	}
 }
@@ -131,6 +132,22 @@ func getIndexOfFolder(jsonDataArray []Responsible, folder string) int {
 	}
 	fmt.Println("Folder Not founded: ", folder)
 	return -1
+}
+
+func removeDuplicateValues(stringSlice []string) []string {
+	keys := make(map[string]bool)
+	var list []string
+
+	// If the key(values of the slice) is not equal
+	// to the already present value in new slice (list)
+	// then we append it. else we jump on another element.
+	for _, entry := range stringSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
 }
 
 func extraBranchKey(branch string, allowedKeys string) string {
