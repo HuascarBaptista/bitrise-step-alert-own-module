@@ -74,11 +74,6 @@ inputs:
       title: "Git branch touched"
       is_expand: true
       is_required: false
-  - author: $BITRISE_GIT_AUTHOR
-    opts:
-      title: "Git author guilty"
-      is_expand: true
-      is_required: false
   - pr: $BITRISEIO_PULL_REQUEST_REPOSITORY_URL
     opts:
       title: "Pull request url"

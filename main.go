@@ -21,7 +21,6 @@ type Config struct {
 	AllowedKeys       string `env:"jira_keys,required"`
 	PR                string `env:"pr,required"`
 	Branch            string `env:"branch,required"`
-	Author            string `env:"author,required"`
 	Folders           string `env:"folders,required"`
 	PathConfiguration string `env:"path_configuration,required"`
 }

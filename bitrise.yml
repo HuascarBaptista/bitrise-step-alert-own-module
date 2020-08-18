@@ -39,7 +39,6 @@ workflows:
         inputs:
           - jira_keys: ${JIRA_KEYS}
           - folders: ${FOLDERS}
-          - author: ${AUTHOR}
           - pr: ${PR}
           - path_configuration: ${PATH_CONFIGURATION}
           - branch: ${BRANCH}
