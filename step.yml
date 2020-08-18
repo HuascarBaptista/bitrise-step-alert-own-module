@@ -51,11 +51,11 @@ run_if: ""
 
 deps:
   brew:
-  - name: git
-  - name: wget
+    - name: git
+    - name: wget
   apt_get:
-  - name: git
-  - name: wget
+    - name: git
+    - name: wget
 
 
 toolkit:
@@ -65,35 +65,35 @@ toolkit:
 
 inputs:
   - jira_keys: $JIRA_PROJECT_KEYS
-      opts:
-        title: "Jira keys"
-        is_expand: true
-        is_required: false
+    opts:
+      title: "Jira keys"
+      is_expand: true
+      is_required: false
   - branch: $BITRISE_GIT_BRANCH
-      opts:
-        title: "Git branch touched"
-        is_expand: true
-        is_required: false
+    opts:
+      title: "Git branch touched"
+      is_expand: true
+      is_required: false
   - author: $BITRISE_GIT_AUTHOR
-      opts:
-        title: "Git author guilty"
-        is_expand: true
-        is_required: false
+    opts:
+      title: "Git author guilty"
+      is_expand: true
+      is_required: false
   - pr: $BITRISEIO_PULL_REQUEST_REPOSITORY_URL
-      opts:
-        title: "Pull request url"
-        is_expand: true
-        is_required: false
+    opts:
+      title: "Pull request url"
+      is_expand: true
+      is_required: false
   - folders: $DIFF_FOLDERS
-      opts:
-        title: "Folders that has been touched"
-        is_expand: true
-        is_required: false
+    opts:
+      title: "Folders that has been touched"
+      is_expand: true
+      is_required: false
   - path_configuration: "tools/responsible.json"
-      opts:
-        title: "path of responsible configuration"
-        is_expand: true
-        is_required: false
+    opts:
+      title: "path of responsible configuration"
+      is_expand: true
+      is_required: false
 
 outputs:
   - ALERT_MESSAGE:
