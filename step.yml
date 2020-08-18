@@ -64,6 +64,26 @@ toolkit:
 
 
 inputs:
+  - jira_keys: $JIRA_PROJECT_KEYS
+      opts:
+        title: "Jira keys"
+        is_expand: true
+        is_required: false
+  - branch: $BITRISE_GIT_BRANCH
+      opts:
+        title: "Git branch touched"
+        is_expand: true
+        is_required: false
+  - author: $BITRISE_GIT_AUTHOR
+      opts:
+        title: "Git author guilty"
+        is_expand: true
+        is_required: false
+  - pr: $BITRISEIO_PULL_REQUEST_REPOSITORY_URL
+      opts:
+        title: "Pull request url"
+        is_expand: true
+        is_required: false
   - folders: $DIFF_FOLDERS
       opts:
         title: "Folders that has been touched"
