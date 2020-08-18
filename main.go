@@ -47,10 +47,6 @@ func main() {
 
 	branchKey := extraBranchKey(cfg.Branch, cfg.AllowedKeys)
 
-	if branchKey == "" {
-		failf("Key don't allowed")
-	}
-
 	var arrayOfFolders = removeDuplicateValues(strings.Split(cfg.Folders, "|"))
 
 	var indexOfKey = getIndexOfKeyProject(jsonDataArray, branchKey)
@@ -105,9 +101,11 @@ func fillFoldersTouchedByProject(arrayOfFolders []string, jsonDataArray []Respon
 }
 
 func getIndexOfKeyProject(jsonDataArray []Responsible, branchKey string) int {
-	for i := 0; i < len(jsonDataArray); i++ {
-		if jsonDataArray[i].Key == branchKey {
-			return i
+	if branchKey != "" {
+		for i := 0; i < len(jsonDataArray); i++ {
+			if jsonDataArray[i].Key == branchKey {
+				return i
+			}
 		}
 	}
 	return -1
@@ -148,7 +146,7 @@ func extraBranchKey(branch string, allowedKeys string) string {
 		if key != "" {
 			return key
 		} else {
-			failf("Key %s in branch %s don't founded in allowed keys: %s", dividerBySlashPath[1], branch, allowedKeys)
+			fmt.Printf("Key %s in branch %s don't founded in allowed keys: %s\n", dividerBySlashPath[1], branch, allowedKeys)
 		}
 	}
 	return ""
