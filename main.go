@@ -157,7 +157,7 @@ func extraBranchKey(branch string, allowedKeys string) string {
 
 func failf(format string, v ...interface{}) {
 	log.Errorf(format, v...)
-	os.Exit(1)
+	os.Exit(0)
 }
 
 func stringContainsInArray(branchPart string, allowedKeysSeparated []string) string {
