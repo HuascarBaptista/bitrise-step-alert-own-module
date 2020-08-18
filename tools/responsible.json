@@ -1,0 +1,17 @@
+[
+  {
+    "key": "SHP",
+    "modules": ["shoppingcart","shoppingcartapi","shoppingcart","basket"],
+    "slack_responsible": ["@huascar.baptista"]
+  },
+  {
+    "key": "OT",
+    "modules": ["checkoutv2","tools"],
+    "slack_responsible": ["@miguel.alegria","@cristian.diez"]
+  },
+  {
+    "key": "SPRT",
+    "modules": ["base"],
+    "slack_responsible": ["@miguel","@cristian.diez"]
+  }
+]
