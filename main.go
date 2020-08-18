@@ -70,9 +70,9 @@ func main() {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible
 			if len(folders) > 1 {
-				message += "*" + key + "*: modulos afectados: [*" + strings.Join(folders, ", ") + "*] cc:" + strings.Join(responsible, ", ") + "\n"
+				message += "• *" + key + "*: modulos afectados [*" + strings.Join(folders, ", ") + "*] cc:" + strings.Join(responsible, ", ") + "\n"
 			} else {
-				message += "*" + key + "*: modulo afectado: *" + strings.Join(folders, ", ") + "* cc:" + strings.Join(responsible, ", ") + "\n"
+				message += "• *" + key + "*: modulo afectado [*" + strings.Join(folders, ", ") + "*] cc:" + strings.Join(responsible, ", ") + "\n"
 			}
 		}
 		if err := tools.ExportEnvironmentWithEnvman("ALERT_MESSAGE", message); err != nil {
