@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/bitrise-io/go-utils/log"
+	"github.com/bitrise-tools/go-steputils/stepconf"
 	"github.com/bitrise-tools/go-steputils/tools"
 	"io/ioutil"
 	"os"
@@ -25,17 +26,19 @@ type Config struct {
 }
 
 func main() {
-	var cfg Config = Config{
-		Folders:           "tools\nbasket\nbase\n",
-		PathConfiguration: "tools/responsible.json",
-		Branch:            "fix/SHP-22/huascar",
-		AllowedKeys:       "BAS|SHP|OT",
-	}
-	/*var cfg Config
+	/*
+		var cfg Config = Config{
+			Folders:           "tools\nbasket\nbase\n",
+			PathConfiguration: "tools/responsible.json",
+			Branch:            "fix/SHP-22/huascar",
+			AllowedKeys:       "BAS|SHP|OT",
+		}
+	*/
+	var cfg Config
 	if err := stepconf.Parse(&cfg); err != nil {
 		failf("Issue with input: %s", err)
 	}
-	*/
+
 	fmt.Printf("The Path configuration is %s\n", cfg.PathConfiguration)
 
 	file, _ := ioutil.ReadFile(cfg.PathConfiguration)
