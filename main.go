@@ -43,7 +43,11 @@ func main() {
 
 	var jsonDataArray []Responsible
 
-	_ = json.Unmarshal(file, &jsonDataArray)
+	errorJson := json.Unmarshal(file, &jsonDataArray)
+
+	if errorJson != nil {
+		failf("Error parsing JSON\n")
+	}
 
 	branchKey := extraBranchKey(cfg.Branch, cfg.AllowedKeys)
 
@@ -75,8 +79,7 @@ func main() {
 			failf("error exporting variable", err)
 		}
 	} else {
-		fmt.Printf("No folders touched\n")
-		os.Exit(-1)
+		failf("No folders touched\n")
 	}
 
 	// --- Exit codes:

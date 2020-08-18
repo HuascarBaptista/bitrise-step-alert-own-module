@@ -9,7 +9,7 @@ app:
     - BRANCH: $BRANCH
     - PR: $PR
     - BITRISE_STEP_ID: alert-own-module
-    - BITRISE_STEP_VERSION: "1.4"
+    - BITRISE_STEP_VERSION: "1.5"
     - BITRISE_STEP_GIT_CLONE_URL: https://github.com/HuascarBaptista/bitrise-step-alert-own-module.git
     - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
 
