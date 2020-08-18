@@ -77,7 +77,8 @@ func main() {
 			failf("error exporting variable", err)
 		}
 	} else {
-		os.Exit(1)
+		fmt.Printf("No folders touched\n")
+		os.Exit(0)
 	}
 
 	// You can find more usage examples on envman's GitHub page
