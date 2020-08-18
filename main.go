@@ -20,7 +20,6 @@ type Responsible struct {
 type Config struct {
 	AllowedKeys       string `env:"jira_keys"`
 	PR                string `env:"pr"`
-	Author            string `env:"author"`
 	Branch            string `env:"branch"`
 	Folders           string `env:"folders"`
 	PathConfiguration string `env:"path_configuration"`
@@ -64,7 +63,7 @@ func main() {
 
 	fillFoldersTouchedByProject(arrayOfFolders, jsonDataArray, indexOfKey, foldersTouchedByProject)
 	if len(foldersTouchedByProject) > 0 {
-		var message = "El PR <https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|Link> de " + cfg.Author + "está tocando algunas carpetas que no son de su modulo:\n"
+		var message = "El PR <https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|Link> está tocando algunas carpetas que no son de su modulo:\n"
 		for key, folders := range foldersTouchedByProject {
 			var affectedIndex = getIndexOfKeyProject(jsonDataArray, key)
 			responsible := jsonDataArray[affectedIndex].SlackResponsible
@@ -160,7 +159,7 @@ func failf(format string, v ...interface{}) {
 
 func stringContainsInArray(branchPart string, allowedKeysSeparated []string) string {
 	for _, allowedKey := range allowedKeysSeparated {
-		if strings.Contains(branchPart, allowedKey) {
+		if strings.Contains(normalize(branchPart), normalize(allowedKey)) {
 			return allowedKey
 		}
 	}
@@ -169,9 +168,13 @@ func stringContainsInArray(branchPart string, allowedKeysSeparated []string) str
 
 func stringInArray(stringToCheck string, arrayContained []string) string {
 	for _, value := range arrayContained {
-		if stringToCheck == value {
+		if normalize(stringToCheck) == normalize(value) {
 			return value
 		}
 	}
 	return ""
+}
+
+func normalize(stringToCheck string) string {
+	return strings.TrimSpace(strings.ToLower(stringToCheck))
 }

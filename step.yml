@@ -73,14 +73,9 @@ inputs:
       title: "Git branch touched"
       is_expand: true
       is_required: false
-  - pr: $BITRISE_PULL_REQUEST_ID
+  - pr: $BITRISE_PULL_REQUEST
     opts:
-      title: "Pull request url"
-      is_expand: true
-      is_required: false
-  - author: $BITRISE_PULL_REQUEST_AUTHOR
-    opts:
-      title: "Pull request author"
+      title: "Pull request ID"
       is_expand: true
       is_required: false
   - folders: $DIFF_FOLDERS
