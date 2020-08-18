@@ -144,7 +144,7 @@ func removeDuplicateValues(stringSlice []string) []string {
 func extraBranchKey(branch string, allowedKeys string) string {
 	dividerBySlashPath := strings.Split(branch, "/")
 	allowedKeysSeparated := strings.Split(allowedKeys, "|")
-	if len(dividerBySlashPath) > 2 {
+	if len(dividerBySlashPath) > 1 {
 		var key = stringContainsInArray(dividerBySlashPath[1], allowedKeysSeparated)
 		if key != "" {
 			return key
