@@ -61,7 +61,7 @@ func main() {
 	if len(foldersTouchedByProject) > 0 {
 		var message = ""
 		if indexOfKey != -1 {
-			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR de " + jsonDataArray[indexOfKey].Key + "> está tocando algunos modulos que no son de su propiedad:\n"
+			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR " + cfg.PR + " de " + jsonDataArray[indexOfKey].Key + "> está tocando algunos modulos que no son de su propiedad:\n"
 
 		} else {
 			message = "<https://bitbucket.org/rappinc/rappi/pull-requests/" + cfg.PR + "|El PR " + cfg.PR + "> está tocando algunos modulos que no son de su propiedad:\n"
